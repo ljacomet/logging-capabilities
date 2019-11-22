@@ -1,0 +1,3 @@
+A Gradle plugin, built on the https://docs.gradle.org/6.0.1/userguide/component_capabilities.html[Gradle 6.0 features], to detect and optionally select a Java logger implementation so that it is enforced at build time!
+
+Documentation and release announcement to follow ...
