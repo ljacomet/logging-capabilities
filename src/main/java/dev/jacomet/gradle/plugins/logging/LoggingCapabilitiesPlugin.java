@@ -58,8 +58,8 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
      */
     private void configureLog4J2(DependencyHandler dependencies) {
         dependencies.components(handler -> {
-            handler.withModule("org.apache.logging.log4j:log4j-slf4j-impl", Log4J2vsSlf4J.class);
-            handler.withModule("org.apache.logging.log4j:log4j-to-slf4j", Log4J2vsSlf4J.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.moduleId, Log4J2vsSlf4J.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_TO_SLF4J.moduleId, Log4J2vsSlf4J.class);
         });
 
     }
@@ -76,12 +76,12 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
      */
     private void configureSlf4J(DependencyHandler dependencies) {
         dependencies.components(handler -> {
-            handler.withModule("org.slf4j:slf4j-simple", Slf4JImplementation.class);
-            handler.withModule("ch.qos.logback:logback-classic", Slf4JImplementation.class);
-            handler.withModule("org.slf4j:slf4j-log4j12", Slf4JImplementation.class);
-            handler.withModule("org.slf4j:slf4j-jcl", Slf4JImplementation.class);
-            handler.withModule("org.slf4j:slf4j-jdk14", Slf4JImplementation.class);
-            handler.withModule("org.apache.logging.log4j:log4j-slf4j-impl", Slf4JImplementation.class);
+            handler.withModule(LoggingModuleIdentifiers.SLF4J_SIMPLE.moduleId, Slf4JImplementation.class);
+            handler.withModule(LoggingModuleIdentifiers.LOGBACK_CLASSIC.moduleId, Slf4JImplementation.class);
+            handler.withModule(LoggingModuleIdentifiers.SLF4J_LOG4J12.moduleId, Slf4JImplementation.class);
+            handler.withModule(LoggingModuleIdentifiers.SLF4J_JCL.moduleId, Slf4JImplementation.class);
+            handler.withModule(LoggingModuleIdentifiers.SLF4J_JDK14.moduleId, Slf4JImplementation.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.moduleId, Slf4JImplementation.class);
         });
     }
 
@@ -100,12 +100,12 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
      */
     private void configureLog4J(DependencyHandler dependencies) {
         dependencies.components(handler -> {
-            handler.withModule("org.slf4j:log4j-over-slf4j", Slf4JvsLog4J.class);
-            handler.withModule("org.slf4j:slf4j-log4j12", Slf4JvsLog4J.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_OVER_SLF4J.moduleId, Slf4JvsLog4J.class);
+            handler.withModule(LoggingModuleIdentifiers.SLF4J_LOG4J12.moduleId, Slf4JvsLog4J.class);
 
-            handler.withModule("org.slf4j:log4j-over-slf4j", Slf4JvsLog4J2ForLog4J.class);
-            handler.withModule("org.apache.logging.log4j:log4j-1.2-api", Slf4JvsLog4J2ForLog4J.class);
-            handler.withModule("log4j:log4j", Slf4JvsLog4J2ForLog4J.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_OVER_SLF4J.moduleId, Slf4JvsLog4J2ForLog4J.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J12API.moduleId, Slf4JvsLog4J2ForLog4J.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J.moduleId, Slf4JvsLog4J2ForLog4J.class);
         });
     }
 
@@ -124,11 +124,11 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
      */
     private void configureJavaUtilLogging(DependencyHandler dependencies) {
         dependencies.components( handler -> {
-            handler.withModule("org.slf4j:jul-to-slf4j", Slf4JvsJUL.class);
-            handler.withModule("org.slf4j:slf4j-jdk14", Slf4JvsJUL.class);
+            handler.withModule(LoggingModuleIdentifiers.JUL_TO_SLF4J.moduleId, Slf4JvsJUL.class);
+            handler.withModule(LoggingModuleIdentifiers.SLF4J_JDK14.moduleId, Slf4JvsJUL.class);
 
-            handler.withModule("org.slf4j:jul-to-slf4j", Slf4JvsLog4J2ForJUL.class);
-            handler.withModule("org.apache.logging.log4j:log4j-jul", Slf4JvsLog4J2ForJUL.class);
+            handler.withModule(LoggingModuleIdentifiers.JUL_TO_SLF4J.moduleId, Slf4JvsLog4J2ForJUL.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_JUL.moduleId, Slf4JvsLog4J2ForJUL.class);
         });
     }
 
@@ -148,14 +148,14 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
      */
     private void configureCommonsLogging(DependencyHandler dependencies) {
         dependencies.components( handler -> {
-            handler.withModule("commons-logging:commons-logging", CommonsLoggingImplementationRule.class);
-            handler.withModule("org.slf4j:jcl-over-slf4j", CommonsLoggingImplementationRule.class);
+            handler.withModule(LoggingModuleIdentifiers.COMMONS_LOGGING.moduleId, CommonsLoggingImplementationRule.class);
+            handler.withModule(LoggingModuleIdentifiers.JCL_OVER_SLF4J.moduleId, CommonsLoggingImplementationRule.class);
 
-            handler.withModule("org.slf4j:jcl-over-slf4j", Slf4JVsJCL.class);
-            handler.withModule("org.slf4j:slf4j-jcl", Slf4JVsJCL.class);
+            handler.withModule(LoggingModuleIdentifiers.JCL_OVER_SLF4J.moduleId, Slf4JVsJCL.class);
+            handler.withModule(LoggingModuleIdentifiers.SLF4J_JCL.moduleId, Slf4JVsJCL.class);
 
-            handler.withModule("org.slf4j:jcl-over-slf4j", Slf4JVsLog4J2ForJCL.class);
-            handler.withModule("org.apache.logging.log4j:log4j-jcl", Slf4JVsLog4J2ForJCL.class);
+            handler.withModule(LoggingModuleIdentifiers.JCL_OVER_SLF4J.moduleId, Slf4JVsLog4J2ForJCL.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_JCL.moduleId, Slf4JVsLog4J2ForJCL.class);
         });
     }
 }
