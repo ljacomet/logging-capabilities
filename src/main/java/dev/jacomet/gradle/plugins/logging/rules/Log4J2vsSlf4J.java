@@ -19,8 +19,11 @@ package dev.jacomet.gradle.plugins.logging.rules;
  * Adds capability {@code dev.jacomet.logging:log4j2-vs-slf4j:<version>} to all variants, using the version of the module targeted.
  */
 public class Log4J2vsSlf4J extends VersionedCapabilityRule {
+    public static final String CAPABILITY_NAME = "log4j2-vs-slf4j";
+    public static final String CAPABILITY_ID = FixedCapabilityRule.CAPABILITY_GROUP + ":" + CAPABILITY_NAME;
+
     public Log4J2vsSlf4J() {
-        super("log4j2-vs-slf4j");
+        super(CAPABILITY_NAME);
     }
 
 }

@@ -19,7 +19,10 @@ package dev.jacomet.gradle.plugins.logging.rules;
  * Adds capability {@code dev.jacomet.logging:slf4j-vs-jcl:<version>} to all variants, using the version of the module targeted.
  */
 public class Slf4JVsJCL extends VersionedCapabilityRule {
+    public static final String CAPABILITY_NAME = "slf4j-vs-jcl";
+    public static final String CAPABILITY_ID = FixedCapabilityRule.CAPABILITY_GROUP + ":" + CAPABILITY_NAME;
+
     public Slf4JVsJCL() {
-        super("slf4j-vs-jcl");
+        super(CAPABILITY_NAME);
     }
 }

@@ -19,7 +19,10 @@ package dev.jacomet.gradle.plugins.logging.rules;
  * Adds capability {@code dev.jacomet.logging:slf4j-vs-log4j2-jul:1.0} to all variants.
  */
 public class Slf4JvsLog4J2ForJUL extends FixedCapabilityRule {
+    public static final String CAPABILITY_NAME = "slf4j-vs-log4j2-jul";
+    public static final String CAPABILITY_ID = CAPABILITY_GROUP + ":" + CAPABILITY_NAME;
+
     public Slf4JvsLog4J2ForJUL() {
-        super("slf4j-vs-log4j2-jul");
+        super(CAPABILITY_NAME);
     }
 }

@@ -15,6 +15,7 @@
  */
 package dev.jacomet.gradle.plugins.logging;
 
+import dev.jacomet.gradle.plugins.logging.extension.LoggingCapabilitiesExtension;
 import dev.jacomet.gradle.plugins.logging.rules.CommonsLoggingImplementationRule;
 import dev.jacomet.gradle.plugins.logging.rules.Log4J2Alignment;
 import dev.jacomet.gradle.plugins.logging.rules.Log4J2vsSlf4J;
@@ -34,6 +35,7 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
+        project.getExtensions().create("loggingCapabilities", LoggingCapabilitiesExtension.class, project.getConfigurations(), project.getDependencies());
         configureCommonsLogging(project.getDependencies());
         configureJavaUtilLogging(project.getDependencies());
         configureLog4J(project.getDependencies());
@@ -70,7 +72,7 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
      * * `slf4j-simple`
      * * `logback-classic`
      * * `slf4j-log4j12` to use Log4J 1.2
-     * * `sl4j-jcl` to use Jakarta Commons Logging
+     * * `slf4j-jcl` to use Jakarta Commons Logging
      * * `slf4j-jdk14` to use Java Util Logging
      * * `log4j-slf4j-impl` to use Log4J2
      */

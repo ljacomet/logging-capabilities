@@ -19,7 +19,10 @@ package dev.jacomet.gradle.plugins.logging.rules;
  * Adds capability {@code dev.jacomet.logging:commons-logging-impl:1.0} to all variants.
  */
 public class CommonsLoggingImplementationRule extends FixedCapabilityRule {
+    public static final String CAPABILITY_NAME = "commons-logging-impl";
+    public static final String CAPABILITY_ID = CAPABILITY_GROUP + ":" + CAPABILITY_NAME;
+
     public CommonsLoggingImplementationRule() {
-        super("commons-logging-impl");
+        super(CAPABILITY_NAME);
     }
 }

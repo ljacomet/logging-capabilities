@@ -19,7 +19,11 @@ package dev.jacomet.gradle.plugins.logging.rules;
  * Adds capability {@code dev.jacomet.logging:slf4j-impl:1.0} to all variants.
  */
 public class Slf4JImplementation extends FixedCapabilityRule {
+
+    public static final String CAPABILITY_NAME = "slf4j-impl";
+    public static final String CAPABILITY_ID = CAPABILITY_GROUP + ":" + CAPABILITY_NAME;
+
     public Slf4JImplementation() {
-        super("slf4j-impl");
+        super(CAPABILITY_NAME);
     }
 }

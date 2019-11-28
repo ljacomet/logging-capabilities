@@ -22,6 +22,8 @@ import org.gradle.api.artifacts.ComponentMetadataRule;
  * Abstract rule adding a capability with a hard coded version.
  */
 abstract class FixedCapabilityRule implements ComponentMetadataRule {
+    static final String CAPABILITY_GROUP = "dev.jacomet.logging";
+    
     private final String name;
 
     protected FixedCapabilityRule(String name) {
