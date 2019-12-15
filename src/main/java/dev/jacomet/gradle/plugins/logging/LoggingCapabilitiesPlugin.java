@@ -35,13 +35,14 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        project.getExtensions().create("loggingCapabilities", LoggingCapabilitiesExtension.class, project.getConfigurations(), project.getDependencies());
-        configureCommonsLogging(project.getDependencies());
-        configureJavaUtilLogging(project.getDependencies());
-        configureLog4J(project.getDependencies());
-        configureSlf4J(project.getDependencies());
-        configureLog4J2(project.getDependencies());
-        configureAlignment(project.getDependencies());
+        DependencyHandler dependencies = project.getDependencies();
+        project.getExtensions().create("loggingCapabilities", LoggingCapabilitiesExtension.class, project.getConfigurations(), dependencies);
+        configureCommonsLogging(dependencies);
+        configureJavaUtilLogging(dependencies);
+        configureLog4J(dependencies);
+        configureSlf4J(dependencies);
+        configureLog4J2(dependencies);
+        configureAlignment(dependencies);
     }
 
     private void configureAlignment(DependencyHandler dependencies) {
