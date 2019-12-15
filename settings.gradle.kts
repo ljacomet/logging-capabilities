@@ -14,4 +14,17 @@
  * limitations under the License.
  */
 
+plugins {
+    id("com.gradle.enterprise").version("3.1.1")
+}
+
 rootProject.name = "logging-capabilities"
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+
+        publishAlways()
+    }
+}
