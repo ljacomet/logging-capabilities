@@ -16,7 +16,9 @@
 package dev.jacomet.gradle.plugins.logging;
 
 import dev.jacomet.gradle.plugins.logging.rules.CommonsLoggingImplementationRule;
+import dev.jacomet.gradle.plugins.logging.rules.Log4J2Alignment;
 import dev.jacomet.gradle.plugins.logging.rules.Log4J2vsSlf4J;
+import dev.jacomet.gradle.plugins.logging.rules.Slf4JAlignment;
 import dev.jacomet.gradle.plugins.logging.rules.Slf4JImplementation;
 import dev.jacomet.gradle.plugins.logging.rules.Slf4JVsJCL;
 import dev.jacomet.gradle.plugins.logging.rules.Slf4JVsLog4J2ForJCL;
@@ -37,6 +39,14 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
         configureLog4J(project.getDependencies());
         configureSlf4J(project.getDependencies());
         configureLog4J2(project.getDependencies());
+        configureAlignment(project.getDependencies());
+    }
+
+    private void configureAlignment(DependencyHandler dependencies) {
+        dependencies.components(handler -> {
+            handler.all(Slf4JAlignment.class);
+            handler.all(Log4J2Alignment.class);
+        });
     }
 
     /**

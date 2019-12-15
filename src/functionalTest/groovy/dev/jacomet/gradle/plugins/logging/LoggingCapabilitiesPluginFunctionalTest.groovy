@@ -119,6 +119,28 @@ class LoggingCapabilitiesPluginFunctionalTest extends Specification {
         'org.slf4j:jcl-over-slf4j:1.7.27'   | 'org.apache.logging.log4j:log4j-jcl:2.9.1'    | 'slf4j-vs-log4j2-jcl'
     }
 
+    def "provides alignment on Slf4J"() {
+        given:
+        withBuildScriptWithDependencies("org.slf4j:slf4j-simple:1.7.25", "org.slf4j:slf4j-api:1.7.27")
+
+        when:
+        def result = build(['doIt'])
+
+        then:
+        result.output.contains("slf4j-simple-1.7.27.jar")
+    }
+
+    def "provides alignment on Log4J 2"() {
+        given:
+        withBuildScriptWithDependencies("org.apache.logging.log4j:log4j-to-slf4j:2.9.1", "org.apache.logging.log4j:log4j-api:2.11.0")
+
+        when:
+        def result = build(['doIt'])
+
+        then:
+        result.output.contains("log4j-to-slf4j-2.11.0.jar")
+    }
+
     TaskOutcome outcomeOf(BuildResult result, String path) {
         result.task(path)?.outcome
     }
