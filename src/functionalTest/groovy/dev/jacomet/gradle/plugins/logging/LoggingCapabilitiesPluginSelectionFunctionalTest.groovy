@@ -234,4 +234,58 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
         !result.output.contains("commons-logging-1.2.jar")
         result.output.contains("jcl-over-slf4j-1.7.27.jar")
     }
+
+    def "can enforce different loggers in runtime and test"() {
+        given:
+        withBuildScript("""
+            plugins {
+                `java-library`
+                id("dev.jacomet.logging-capabilities")
+            }
+
+            repositories {
+                mavenCentral()
+            }
+            
+            loggingCapabilities {
+                enforceLog4J2("runtimeClasspath")
+                enforceSlf4JSimple("testRuntimeClasspath")
+            }
+            
+            dependencies {
+                implementation("org.slf4j:slf4j-api:1.7.27")
+                implementation("org.apache.logging.log4j:log4j-api:2.12.1")
+                
+                implementation("log4j:log4j:1.2.17")
+                implementation("commons-logging:commons-logging:1.2")
+                
+                runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.12.1")
+                runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
+                runtimeOnly("org.slf4j:slf4j-simple:1.7.27")
+                runtimeOnly("org.slf4j:slf4j-log4j12:1.7.27")
+                runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.27")
+                runtimeOnly("org.slf4j:jul-to-slf4j:1.7.27")
+                runtimeOnly("org.slf4j:slf4j-jdk14:1.7.27")
+                runtimeOnly("org.slf4j:slf4j-jcl:1.7.27")
+                runtimeOnly("org.slf4j:jcl-over-slf4j:1.7.27")
+
+                runtimeOnly("org.apache.logging.log4j:log4j-jul:2.12.1")
+                runtimeOnly("org.apache.logging.log4j:log4j-1.2-api:2.12.1")
+                runtimeOnly("org.apache.logging.log4j:log4j-to-slf4j:2.12.1")
+                runtimeOnly("org.apache.logging.log4j:log4j-jcl:2.12.1")
+            }
+
+            tasks.register("doIt") {
+                doLast {
+                    println(configurations.runtimeClasspath.files)
+                    println(configurations.testRuntimeClasspath.files)
+                }
+            }
+""")
+        when:
+        def result = build(['doIt'])
+
+        then:
+        outcomeOf(result, ':doIt') == SUCCESS
+    }
 }
