@@ -75,7 +75,7 @@ The added capabilities and impacted modules can be found in the table below:
 
 NOTE: All capabilities are in the group `dev.jacomet.logging`
 
-With the set of capabilities defined above, all configuration resolution in Gradle will fail if conflicting modules are found in the graph.
+With the set of capabilities defined above, all configuration resolutions in Gradle will fail if conflicting modules are found in the graph.
 
 == Expressing preference over a logging solution
 
@@ -162,7 +162,8 @@ A notation as above
 
 |===
 
-NOTE: Notations above are those accepted by https://docs.gradle.org/6.0.1/dsl/org.gradle.api.artifacts.dsl.DependencyHandler.html#org.gradle.api.artifacts.dsl.DependencyHandler:create(java.lang.Object)[`DependencyHandler.create(notation)`] in Gradle, most often a `group:name:version` `String` that resolves to an `ExternalDependency`.
+NOTE: Notations above are those accepted by https://docs.gradle.org/6.0.1/dsl/org.gradle.api.artifacts.dsl.DependencyHandler.html#org.gradle.api.artifacts.dsl.DependencyHandler:create(java.lang.Object)[`DependencyHandler.create(notation)`] in Gradle that resolves to an `ExternalDependency`.
+Most often this is a `group:name:version` `String`.
 
 == Building and reporting issues
 
