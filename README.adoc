@@ -4,7 +4,20 @@
 :caution-caption: :fire:
 :warning-caption: :warning:
 
-A Gradle plugin, built on the https://docs.gradle.org/6.0.1/userguide/component_capabilities.html[Gradle capabilities feature], to detect and optionally select a Java logger implementation so that it is enforced at build time!
+Ever seen this infamous Slf4J warning?
+```
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:.../slf4j-log4j12-1.7.29.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:.../logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+```
+
+Ever wondered how to make sure _all_ your dependencies's logging ends up in your Log4J 2 configuration?
+
+Then this plugin is for you!
+
+It is built on the https://docs.gradle.org/6.0.1/userguide/component_capabilities.html[Gradle capabilities feature], to detect and optionally select a Java logger implementation so that it is enforced at build time!
 
 == Plugin application and compatibility
 
@@ -27,6 +40,7 @@ Have a look at https://plugins.gradle.org/plugin/dev.jacomet.logging-capabilitie
 
 |===
 
+[[detection]]
 == Detection of invalid logging configurations
 
 Upon application, this plugin defines a set of https://docs.gradle.org/6.0.1/userguide/component_metadata_rules.html#basics_of_writing_a_component_metadata_rule[component metadata rules] that add capabilities to relevant logging related dependencies.
@@ -77,10 +91,12 @@ NOTE: All capabilities are in the group `dev.jacomet.logging`
 
 With the set of capabilities defined above, all configuration resolutions in Gradle will fail if conflicting modules are found in the graph.
 
+[[align]]
 == Alignment of logging libraries
 
 In addition to the capability setting and conflict detection, the plugin also registers https://docs.gradle.org/6.0.1/userguide/dependency_version_alignment.html#sec:align-versions-virtual[alignment rules] for Slf4J and Log4J 2 modules.
 
+[[config]]
 == Expressing preference over a logging solution
 
 The plugin also contributes a project extension that allows to configure which logging solution to use in a declarative fashion.
