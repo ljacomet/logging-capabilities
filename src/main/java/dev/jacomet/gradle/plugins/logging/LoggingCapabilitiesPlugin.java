@@ -37,7 +37,7 @@ class LoggingCapabilitiesPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         DependencyHandler dependencies = project.getDependencies();
-        if (GradleVersion.current().compareTo(GradleVersion.version("6.0")) < 0) {
+        if (GradleVersion.current().compareTo(GradleVersion.version("6.0")) >= 0) {
             // Only add the extension for Gradle 6 and above
             project.getExtensions().create("loggingCapabilities", LoggingCapabilitiesExtension.class, project.getConfigurations(), dependencies);
         }

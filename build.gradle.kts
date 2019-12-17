@@ -27,7 +27,7 @@ repositories {
 }
 
 group = "dev.jacomet.gradle.plugins"
-version = "0.6.0"
+version = "0.7.0"
 
 java {
     targetCompatibility = JavaVersion.VERSION_1_8
