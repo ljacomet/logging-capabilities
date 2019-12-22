@@ -109,28 +109,34 @@ loggingCapabilities {
 }
 ```
 
+TIP: The different configuration options documented below do not _add_ dependencies.
+Make sure to have the expected dependency in your graph, either as a direct or transitive one.
+
 The plugin first provides a number of high-level, one stop solutions, for selecting a logging solution:
 
 |===
-| Method | Documentation
+| Method | Documentation | Required dependency
 
 | `enforceLogback()` +
   `enforceLogback(String configurationName)`
 | This will configure all capabilities to resolve in favour of http://logback.qos.ch/[LOGBack] and route all alternative logging solutions through Slf4J.
+| `ch.qos.logback:logback-classic`
 
 | `enforceLog4J2()` +
   `enforceLog4J2(String configurationName)`
 | This will configure all capabilities to resolve in favour of http://logging.apache.org/log4j/2.x/[Log4J 2] and route all alternative logging solutions through Log4J 2.
+| `org.apache.logging.log4j:log4j-slf4j-impl`
 
 | `enforceSlf4JSimple()` +
   `enforceSlf4JSimple(String configurationName)`
 | This will configure all capabilities to resolve in favour of Slf4J simple and route all alternative logging solutions through Slf4J.
+| `org.slf4j:slf4j-simple`
 
 |===
 
 TIP: The method without parameter will apply the setup to all dependency configuration, while the other one will limit the setup to the specified dependency configuration.
 
-In addition, the plugin provides entry points for solving the different logging conflicts:
+If you want a finer grained control, the plugin provides lower level entry points for solving the different logging capability conflicts:
 |===
 | Method | Accepted parameter values | Documentation
 
