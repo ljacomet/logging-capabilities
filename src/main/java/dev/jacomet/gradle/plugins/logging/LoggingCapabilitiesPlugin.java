@@ -32,7 +32,7 @@ import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.util.GradleVersion;
 
-class LoggingCapabilitiesPlugin implements Plugin<Project> {
+public class LoggingCapabilitiesPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
