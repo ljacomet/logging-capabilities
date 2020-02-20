@@ -99,7 +99,7 @@ In addition to the capability setting and conflict detection, the plugin also re
 Due to a bug in Gradle versions [5.2, 6.2[, alignment is disabled by default for these versions.
 Users with Gradle [6.0, 6.2[ can opt back in with `loggingCapabilities.enableAlignment()`.
 Note that enabling alignment for these versions may cause some capabilities conflict to remain undetected.
-See #4 for details.
+See https://github.com/ljacomet/logging-capabilities/issues/4[this issue] for details.
 
 == Expressing preference over a logging solution
 
