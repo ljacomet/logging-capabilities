@@ -11,8 +11,10 @@ abstract class AbstractLoggingCapabilitiesPluginFunctionalTest extends Specifica
 
     @Rule
     TemporaryFolder testFolder = new TemporaryFolder()
+    File buildFile
 
     def setup() {
+        buildFile = testFolder.newFile('build.gradle.kts')
         testFolder.newFile('settings.gradle.kts') << 'rootProject.name = "test-project"'
     }
 
@@ -39,11 +41,11 @@ abstract class AbstractLoggingCapabilitiesPluginFunctionalTest extends Specifica
     }
 
     void withBuildScript(String content) {
-        testFolder.newFile("build.gradle.kts") << content
+        buildFile << content
     }
 
     void withBuildScriptWithDependencies(String... dependencies) {
-        testFolder.newFile("build.gradle.kts") << """
+        buildFile << """
             plugins {
                 `java-library`
                 id("dev.jacomet.logging-capabilities")

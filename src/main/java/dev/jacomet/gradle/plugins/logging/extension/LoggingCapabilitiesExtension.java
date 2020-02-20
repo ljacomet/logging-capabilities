@@ -1,5 +1,6 @@
 package dev.jacomet.gradle.plugins.logging.extension;
 
+import dev.jacomet.gradle.plugins.logging.LoggingCapabilitiesPlugin;
 import dev.jacomet.gradle.plugins.logging.LoggingModuleIdentifiers;
 import dev.jacomet.gradle.plugins.logging.rules.CommonsLoggingImplementationRule;
 import dev.jacomet.gradle.plugins.logging.rules.Log4J2vsSlf4J;
@@ -27,10 +28,12 @@ import org.gradle.api.artifacts.dsl.DependencyHandler;
 public class LoggingCapabilitiesExtension {
     private final ConfigurationContainer configurations;
     private final DependencyHandler dependencies;
+    private final Runnable alignmentActivation;
 
-    public LoggingCapabilitiesExtension(ConfigurationContainer configurations, DependencyHandler dependencies) {
+    public LoggingCapabilitiesExtension(ConfigurationContainer configurations, DependencyHandler dependencies, Runnable alignmentActivation) {
         this.configurations = configurations;
         this.dependencies = dependencies;
+        this.alignmentActivation = alignmentActivation;
     }
 
     /**
@@ -358,6 +361,18 @@ public class LoggingCapabilitiesExtension {
         selectJCLImplementation(configurationName, LoggingModuleIdentifiers.LOG4J_JCL.asVersionZero());
         selectLog4J12Implementation(configurationName, LoggingModuleIdentifiers.LOG4J12API.asVersionZero());
 
+    }
+
+    /**
+     * Enables the alignment feature.
+     * <p>
+     * The feature is enabled by default for Gradle 6.2 and beyond.
+     * <p>
+     * For Gradle 6.0 and 6.1, the feature is disabled due to a bug that may prevent all conflicts from being properly detected.
+     * So enabling alignment for these versions should be handled carefully.
+     */
+    public void enableAlignment() {
+        alignmentActivation.run();
     }
 
     private void enforceSlf4JImplementation() {

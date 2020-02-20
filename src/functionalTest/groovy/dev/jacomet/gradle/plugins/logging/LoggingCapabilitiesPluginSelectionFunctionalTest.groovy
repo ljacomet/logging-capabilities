@@ -210,6 +210,7 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
             
             loggingCapabilities {
                 enforceLogback()
+                enableAlignment()
             }
             
             dependencies {
