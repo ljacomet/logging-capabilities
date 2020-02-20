@@ -76,6 +76,8 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         'org.slf4j:jcl-over-slf4j:1.7.27'   | 'commons-logging:commons-logging:1.2'             | 'commons-logging-impl'
         'org.slf4j:log4j-over-slf4j:1.7.27' | 'log4j:log4j:1.2.9'                               | 'slf4j-vs-log4j2-log4j'
         'org.slf4j:log4j-over-slf4j:1.7.27' | 'org.apache.logging.log4j:log4j-1.2-api:2.9.1'    | 'slf4j-vs-log4j2-log4j'
+        'org.slf4j:slf4j-log4j12:1.7.27'    | 'org.apache.logging.log4j:log4j-1.2-api:2.9.1'    | 'slf4j-vs-log4j2-log4j'
+        'org.apache.logging.log4j:log4j-1.2-api:2.9.1'    | 'org.slf4j:slf4j-log4j12:1.7.27'    | 'slf4j-vs-log4j2-log4j'
     }
 
     def "can detect Log4J2 logger implementation / bridge implementation conflict"() {
@@ -109,6 +111,11 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
     def "provides alignment on Slf4J"() {
         given:
         withBuildScriptWithDependencies("org.slf4j:slf4j-simple:1.7.25", "org.slf4j:slf4j-api:1.7.27")
+        withBuildScript("""
+loggingCapabilities {
+    enableAlignment()
+}
+""")
 
         when:
         def result = build(['doIt'])
@@ -120,6 +127,11 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
     def "provides alignment on Log4J 2"() {
         given:
         withBuildScriptWithDependencies("org.apache.logging.log4j:log4j-to-slf4j:2.9.1", "org.apache.logging.log4j:log4j-api:2.11.0")
+        withBuildScript("""
+loggingCapabilities {
+    enableAlignment()
+}
+""")
 
         when:
         def result = build(['doIt'])

@@ -32,21 +32,39 @@ import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.util.GradleVersion;
 
-class LoggingCapabilitiesPlugin implements Plugin<Project> {
+public class LoggingCapabilitiesPlugin implements Plugin<Project> {
+
+    private static final GradleVersion GRADLE_6_2 = GradleVersion.version("6.2");
+    private static final GradleVersion GRADLE_6 = GradleVersion.version("6.0");
+    private static final GradleVersion GRADLE_5_2 = GradleVersion.version("5.2");
 
     @Override
     public void apply(Project project) {
         DependencyHandler dependencies = project.getDependencies();
-        if (GradleVersion.current().compareTo(GradleVersion.version("6.0")) >= 0) {
+        GradleVersion gradleVersion = GradleVersion.current();
+        if (gradleVersion.compareTo(GRADLE_6) >= 0) {
             // Only add the extension for Gradle 6 and above
-            project.getExtensions().create("loggingCapabilities", LoggingCapabilitiesExtension.class, project.getConfigurations(), dependencies);
+            project.getExtensions().create("loggingCapabilities", LoggingCapabilitiesExtension.class, project.getConfigurations(), dependencies, getAlignmentActivation(dependencies, gradleVersion));
         }
         configureCommonsLogging(dependencies);
         configureJavaUtilLogging(dependencies);
         configureLog4J(dependencies);
         configureSlf4J(dependencies);
         configureLog4J2(dependencies);
-        configureAlignment(dependencies);
+
+        // ljacomet/logging-capabilities#4
+        if (gradleVersion.compareTo(GRADLE_5_2) < 0 && gradleVersion.compareTo(GRADLE_6_2) >= 0) {
+            configureAlignment(dependencies);
+        }
+    }
+
+    private Runnable getAlignmentActivation(DependencyHandler dependencies, GradleVersion gradleVersion) {
+        if (gradleVersion.compareTo(GRADLE_6_2) < 0) {
+            return () -> {
+                configureAlignment(dependencies);
+            };
+        }
+        return () -> {};
     }
 
     private void configureAlignment(DependencyHandler dependencies) {
