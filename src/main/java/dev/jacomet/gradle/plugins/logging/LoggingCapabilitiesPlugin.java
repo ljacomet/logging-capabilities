@@ -53,7 +53,7 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
         configureLog4J2(dependencies);
 
         // ljacomet/logging-capabilities#4
-        if (gradleVersion.compareTo(GRADLE_5_2) < 0 && gradleVersion.compareTo(GRADLE_6_2) >= 0) {
+        if (gradleVersion.compareTo(GRADLE_5_2) < 0 || gradleVersion.compareTo(GRADLE_6_2) >= 0) {
             configureAlignment(dependencies);
         }
     }
