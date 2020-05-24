@@ -341,10 +341,7 @@ public class LoggingCapabilitiesExtension {
      */
     public void enforceLog4J2() {
         selectSlf4JLog4J2Interaction(LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.asVersionZero());
-        selectJulDelegation(LoggingModuleIdentifiers.LOG4J_JUL.asVersionZero());
-        selectJCLImplementation(LoggingModuleIdentifiers.LOG4J_JCL.asVersionZero());
-        selectLog4J12Implementation(LoggingModuleIdentifiers.LOG4J12API.asVersionZero());
-
+        enforceSlf4JImplementation();
     }
 
     /**
@@ -357,10 +354,7 @@ public class LoggingCapabilitiesExtension {
      */
     public void enforceLog4J2(String configurationName) {
         selectSlf4JLog4J2Interaction(configurationName, LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.asVersionZero());
-        selectJulDelegation(configurationName, LoggingModuleIdentifiers.LOG4J_JUL.asVersionZero());
-        selectJCLImplementation(configurationName, LoggingModuleIdentifiers.LOG4J_JCL.asVersionZero());
-        selectLog4J12Implementation(configurationName, LoggingModuleIdentifiers.LOG4J12API.asVersionZero());
-
+        enforceSlf4JImplementation(configurationName);
     }
 
     /**
