@@ -3,19 +3,20 @@ package dev.jacomet.gradle.plugins.logging
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
+import spock.lang.TempDir
+
+import java.nio.file.Path
 
 abstract class AbstractLoggingCapabilitiesPluginFunctionalTest extends Specification {
 
-    @Rule
-    TemporaryFolder testFolder = new TemporaryFolder()
+    @TempDir
+    Path testFolder
     File buildFile
 
     def setup() {
-        buildFile = testFolder.newFile('build.gradle.kts')
-        testFolder.newFile('settings.gradle.kts') << 'rootProject.name = "test-project"'
+        buildFile = testFolder.resolve('build.gradle.kts').toFile()
+        testFolder.resolve('settings.gradle.kts').toFile() << 'rootProject.name = "test-project"'
     }
 
     TaskOutcome outcomeOf(BuildResult result, String path) {
@@ -36,7 +37,7 @@ abstract class AbstractLoggingCapabilitiesPluginFunctionalTest extends Specifica
         GradleRunner.create()
                 .forwardOutput()
                 .withPluginClasspath()
-                .withProjectDir(testFolder.root)
+                .withProjectDir(testFolder.toFile())
                 .withArguments(args + ["-s"])
     }
 

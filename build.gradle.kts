@@ -24,6 +24,7 @@ plugins {
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 group = "dev.jacomet.gradle.plugins"
@@ -39,10 +40,8 @@ java {
 dependencies {
     implementation(gradleApi())
 
-    testImplementation("org.spockframework:spock-core:1.2-groovy-2.5")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.5.2")
-
-    functionalTestRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.5.2")
+    testImplementation("org.spockframework:spock-core:2.0-groovy-2.5")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 }
 
 gradlePlugin {
