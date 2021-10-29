@@ -17,7 +17,7 @@
 plugins {
     `java-gradle-plugin`
     groovy
-    id("com.gradle.plugin-publish") version "0.10.1"
+    id("com.gradle.plugin-publish") version "0.18.0"
     dev.jacomet.build.functional
     id("com.github.hierynomus.license") version "0.15.0"
 }
