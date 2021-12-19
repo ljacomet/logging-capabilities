@@ -28,7 +28,7 @@ It is built on the https://docs.gradle.org/6.0.1/userguide/component_capabilitie
 [source,kotlin]
 ----
 plugins {
-  id("dev.jacomet.logging-capabilities") version "0.9.0"
+  id("dev.jacomet.logging-capabilities") version "0.10.0"
 }
 ----
 

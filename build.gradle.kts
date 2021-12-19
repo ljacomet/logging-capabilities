@@ -28,7 +28,7 @@ repositories {
 }
 
 group = "dev.jacomet.gradle.plugins"
-version = "0.9.0"
+version = "0.10.0"
 
 java {
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -50,7 +50,10 @@ gradlePlugin {
             id = "dev.jacomet.logging-capabilities"
             implementationClass = "dev.jacomet.gradle.plugins.logging.LoggingCapabilitiesPlugin"
             displayName = "Logging libraries capabilities"
-            description = "Identifies conflicts and enables resolving them for logger implementations in the JVM logging ecosystem"
+            description = """Release notes:
+                |* Adds a capability for the Log4j implementation named `log4j-impl`
+                |* Leverages the Log4j BOM for Log4j alignment
+            """.trimMargin()
         }
     }
 }
