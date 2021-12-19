@@ -18,6 +18,7 @@ package dev.jacomet.gradle.plugins.logging;
 import dev.jacomet.gradle.plugins.logging.extension.LoggingCapabilitiesExtension;
 import dev.jacomet.gradle.plugins.logging.rules.CommonsLoggingImplementationRule;
 import dev.jacomet.gradle.plugins.logging.rules.Log4J2Alignment;
+import dev.jacomet.gradle.plugins.logging.rules.Log4J2Implementation;
 import dev.jacomet.gradle.plugins.logging.rules.Log4J2vsSlf4J;
 import dev.jacomet.gradle.plugins.logging.rules.Slf4JAlignment;
 import dev.jacomet.gradle.plugins.logging.rules.Slf4JImplementation;
@@ -51,6 +52,7 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
         configureLog4J(dependencies);
         configureSlf4J(dependencies);
         configureLog4J2(dependencies);
+        configureLog4J2Implementation(dependencies);
 
         // ljacomet/logging-capabilities#4
         if (gradleVersion.compareTo(GRADLE_5_2) < 0 || gradleVersion.compareTo(GRADLE_6_2) >= 0) {
@@ -86,7 +88,20 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
             handler.withModule(LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.moduleId, Log4J2vsSlf4J.class);
             handler.withModule(LoggingModuleIdentifiers.LOG4J_TO_SLF4J.moduleId, Log4J2vsSlf4J.class);
         });
+    }
 
+    /**
+     * Log4J2 has its own implementation with `log4j-core`.
+     * It can also delegate to Slf4J with `log4j-to-slf4j`.
+     * <p>
+     * Given the above:
+     * * `log4j-core` and `log4j-to-slf4j` are exclusive
+     */
+    private void configureLog4J2Implementation(DependencyHandler dependencies) {
+        dependencies.components(handler -> {
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_TO_SLF4J.moduleId, Log4J2Implementation.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_CORE.moduleId, Log4J2Implementation.class);
+        });
     }
 
     /**

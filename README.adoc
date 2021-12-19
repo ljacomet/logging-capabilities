@@ -54,6 +54,10 @@ The added capabilities and impacted modules can be found in the table below:
 | `org.slf4j:slf4j-simple`, `org.slf4j:slf4j-log4j12`, `org.slf4j:slf4j-jcl`, `org.slf4j:slf4j-jdk14`, `ch.qos.logback:logback-classic`, `org.apache.logging.log4j:log4j-slf4j-impl`
 | Represents an Slf4J binding
 
+| `log4j2-impl`
+| `org.apache.logging.log4j:log4j-slf4j-impl`, `org.apache.logging.log4j:log4j-core`
+| Represents the native Log4J 2 implementation or delegation to Slf4J
+
 | `log4j2-vs-slf4j`
 | `org.apache.logging.log4j:log4j-slf4j-impl`, `org.apache.logging.log4j:log4j-to-slf4j`
 | Represents the Slf4J / Log4J 2 relationship: which one delegates to the other

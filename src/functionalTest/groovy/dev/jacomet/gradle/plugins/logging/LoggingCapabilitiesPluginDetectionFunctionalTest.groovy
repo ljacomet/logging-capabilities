@@ -91,6 +91,17 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         }
     }
 
+    def "can detect Log4J2 logger implementation conflict"() {
+        given:
+        withBuildScriptWithDependencies('org.apache.logging.log4j:log4j-core:2.17.0', 'org.apache.logging.log4j:log4j-to-slf4j:2.17.0')
+
+        expect:
+        buildAndFail(['doIt']) {
+            assert outcomeOf(delegate, ':doIt') == FAILED
+            assert output.contains("conflict on capability 'dev.jacomet.logging:log4j2-impl:2.17.0")
+        }
+    }
+
     @Unroll
     def "can detect conflicting bridge implementations from Slf4J and Log4J2 with #first and #second"() {
         given:

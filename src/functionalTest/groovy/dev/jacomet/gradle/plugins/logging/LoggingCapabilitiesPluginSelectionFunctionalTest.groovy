@@ -182,7 +182,7 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
                                ["log4j:log4j:1.2.17", "commons-logging:commons-logging:1.2", "org.apache.logging.log4j:log4j-slf4j-impl:2.12.1", "ch.qos.logback:logback-classic:1.2.3",
                                 "org.slf4j:slf4j-simple:1.7.27", "org.slf4j:slf4j-log4j12:1.7.27", "org.slf4j:log4j-over-slf4j:1.7.27", "org.slf4j:jul-to-slf4j:1.7.27", "org.slf4j:slf4j-jdk14:1.7.27",
                                 "org.slf4j:slf4j-jcl:1.7.27", "org.slf4j:jcl-over-slf4j:1.7.27", "org.apache.logging.log4j:log4j-jul:2.12.1", "org.apache.logging.log4j:log4j-1.2-api:2.12.1",
-                                "org.apache.logging.log4j:log4j-to-slf4j:2.12.1", "org.apache.logging.log4j:log4j-jcl:2.12.1"]].combinations()
+                                "org.apache.logging.log4j:log4j-to-slf4j:2.12.1", "org.apache.logging.log4j:log4j-jcl:2.12.1", "org.apache.logging.log4j:log4j-core:2.12.1"]].combinations()
     }
 
     String loggerFrom(String enforced) {

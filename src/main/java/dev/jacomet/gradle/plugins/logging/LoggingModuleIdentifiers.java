@@ -17,7 +17,8 @@ public enum LoggingModuleIdentifiers {
     LOG4J_JUL("org.apache.logging.log4j", "log4j-jul", "2.1"),
     COMMONS_LOGGING("commons-logging", "commons-logging", "1.0"),
     JCL_OVER_SLF4J("org.slf4j", "jcl-over-slf4j", "1.5.10"),
-    LOG4J_JCL("org.apache.logging.log4j", "log4j-jcl", "2.0");
+    LOG4J_JCL("org.apache.logging.log4j", "log4j-jcl", "2.0"),
+    LOG4J_CORE("org.apache.logging.log4j", "log4j-core", "2.0");
 
     public final String moduleId;
     public final String group;
@@ -32,7 +33,7 @@ public enum LoggingModuleIdentifiers {
     }
 
     public boolean matches(Dependency dependency) {
-        return dependency.getGroup().equals(group) && dependency.getName().equals(name);
+        return group.equals(dependency.getGroup()) && name.equals(dependency.getName());
     }
 
     public String asFirstVersion() {

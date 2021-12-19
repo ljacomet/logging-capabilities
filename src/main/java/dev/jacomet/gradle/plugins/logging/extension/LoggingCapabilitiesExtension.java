@@ -1,16 +1,7 @@
 package dev.jacomet.gradle.plugins.logging.extension;
 
-import dev.jacomet.gradle.plugins.logging.LoggingCapabilitiesPlugin;
 import dev.jacomet.gradle.plugins.logging.LoggingModuleIdentifiers;
-import dev.jacomet.gradle.plugins.logging.rules.CommonsLoggingImplementationRule;
-import dev.jacomet.gradle.plugins.logging.rules.Log4J2vsSlf4J;
-import dev.jacomet.gradle.plugins.logging.rules.Slf4JImplementation;
-import dev.jacomet.gradle.plugins.logging.rules.Slf4JVsJCL;
-import dev.jacomet.gradle.plugins.logging.rules.Slf4JVsLog4J2ForJCL;
-import dev.jacomet.gradle.plugins.logging.rules.Slf4JvsJUL;
-import dev.jacomet.gradle.plugins.logging.rules.Slf4JvsLog4J;
-import dev.jacomet.gradle.plugins.logging.rules.Slf4JvsLog4J2ForJUL;
-import dev.jacomet.gradle.plugins.logging.rules.Slf4JvsLog4J2ForLog4J;
+import dev.jacomet.gradle.plugins.logging.rules.*;
 import org.gradle.api.Action;
 import org.gradle.api.artifacts.CapabilitiesResolution;
 import org.gradle.api.artifacts.Configuration;
@@ -58,6 +49,7 @@ public class LoggingCapabilitiesExtension {
         } else if (LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.matches(dependency)) {
             selectCapabilityConflict(Log4J2vsSlf4J.CAPABILITY_ID, dependency, because);
             selectCapabilityConflict(Slf4JImplementation.CAPABILITY_ID, dependency, because);
+            selectCapabilityConflict(Log4J2Implementation.CAPABILITY_ID, dependency, because);
         } else if (LoggingModuleIdentifiers.LOGBACK_CLASSIC.matches(dependency) || LoggingModuleIdentifiers.SLF4J_SIMPLE.matches(dependency)) {
             selectCapabilityConflict(Slf4JImplementation.CAPABILITY_ID, dependency, because);
         } else {
@@ -88,10 +80,50 @@ public class LoggingCapabilitiesExtension {
         } else if (LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.matches(dependency)) {
             selectCapabilityConflict(configurationName, Log4J2vsSlf4J.CAPABILITY_ID, dependency, because);
             selectCapabilityConflict(configurationName, Slf4JImplementation.CAPABILITY_ID, dependency, because);
-        } else if (LoggingModuleIdentifiers.LOGBACK_CLASSIC.matches(dependency) || LoggingModuleIdentifiers.SLF4J_SIMPLE.matches(dependency)) {
+            selectCapabilityConflict(configurationName, Log4J2Implementation.CAPABILITY_ID, dependency, because);
+       } else if (LoggingModuleIdentifiers.LOGBACK_CLASSIC.matches(dependency) || LoggingModuleIdentifiers.SLF4J_SIMPLE.matches(dependency)) {
             selectCapabilityConflict(configurationName, Slf4JImplementation.CAPABILITY_ID, dependency, because);
         } else {
             throw new IllegalArgumentException("Provided dependency '" + dependency + "' is not a valid Slf4J binding");
+        }
+    }
+
+    /**
+     * Selects the provided module as the Log4J2 implementation to use.
+     * <p>
+     * This also resolves all other potential conflicts with the passed in module in favor of it.
+     *
+     * @param dependencyNotation the Log4J 2 implementation as a dependency or {@code group:name:version} notation
+     */
+    public void selectLog4J2Implementation(Object dependencyNotation) {
+        ExternalDependency dependency = validateNotation(dependencyNotation);
+        String because = "Logging capabilities plugin selected Log4J2 implementation";
+        if (LoggingModuleIdentifiers.LOG4J_CORE.matches(dependency)) {
+            selectCapabilityConflict(Log4J2Implementation.CAPABILITY_ID, dependency, because);
+        } else if (LoggingModuleIdentifiers.LOG4J_TO_SLF4J.matches(dependency)) {
+            selectCapabilityConflict(Log4J2Implementation.CAPABILITY_ID, dependency, because);
+        } else {
+            throw new IllegalArgumentException("Provided dependency '" + dependency + "' is not a valid Log4J2 implementation");
+        }
+    }
+
+    /**
+     * Selects the provided module as the Log4J2 implementation to use for the resolution of the given configuration.
+     * <p>
+     * This also resolves all other potential conflicts with the passed in module in favor of it.
+     *
+     * @param configurationName the configuration to be setup
+     * @param dependencyNotation the Log4J 2 implementation as a dependency or {@code group:name:version} notation
+     */
+    public void selectLog4J2Implementation(String configurationName, Object dependencyNotation) {
+        ExternalDependency dependency = validateNotation(dependencyNotation);
+        String because = "Logging capabilities plugin selected Log4J2 implementation";
+        if (LoggingModuleIdentifiers.LOG4J_CORE.matches(dependency)) {
+            selectCapabilityConflict(configurationName, Log4J2Implementation.CAPABILITY_ID, dependency, because);
+        } else if (LoggingModuleIdentifiers.LOG4J_TO_SLF4J.matches(dependency)) {
+            selectCapabilityConflict(configurationName, Log4J2Implementation.CAPABILITY_ID, dependency, because);
+        } else {
+            throw new IllegalArgumentException("Provided dependency '" + dependency + "' is not a valid Log4J2 implementation");
         }
     }
 
@@ -256,6 +288,7 @@ public class LoggingCapabilitiesExtension {
         String because = "Logging capabilities plugin selected Slf4J Log4J 2 interaction";
         if (LoggingModuleIdentifiers.LOG4J_TO_SLF4J.matches(dependency)) {
             selectCapabilityConflict(Log4J2vsSlf4J.CAPABILITY_ID, dependency, because);
+            selectCapabilityConflict(Log4J2Implementation.CAPABILITY_ID, dependency, because);
         } else if (LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.matches(dependency)) {
             selectCapabilityConflict(Slf4JImplementation.CAPABILITY_ID, dependency, because);
             selectCapabilityConflict(Log4J2vsSlf4J.CAPABILITY_ID, dependency, because);
@@ -277,6 +310,7 @@ public class LoggingCapabilitiesExtension {
         String because = "Logging capabilities plugin selected Slf4J Log4J 2 interaction";
         if (LoggingModuleIdentifiers.LOG4J_TO_SLF4J.matches(dependency)) {
             selectCapabilityConflict(configurationName, Log4J2vsSlf4J.CAPABILITY_ID, dependency, because);
+            selectCapabilityConflict(configurationName, Log4J2Implementation.CAPABILITY_ID, dependency, because);
         } else if (LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.matches(dependency)) {
             selectCapabilityConflict(configurationName, Slf4JImplementation.CAPABILITY_ID, dependency, because);
             selectCapabilityConflict(configurationName, Log4J2vsSlf4J.CAPABILITY_ID, dependency, because);
@@ -340,6 +374,7 @@ public class LoggingCapabilitiesExtension {
      * For example, {@code commons-logging} and {@code log4j} will be configured to end up in Log4J 2 as well.
      */
     public void enforceLog4J2() {
+        selectLog4J2Implementation( LoggingModuleIdentifiers.LOG4J_CORE.asVersionZero());
         selectSlf4JLog4J2Interaction(LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.asVersionZero());
         selectJulDelegation(LoggingModuleIdentifiers.LOG4J_JUL.asVersionZero());
         selectJCLImplementation(LoggingModuleIdentifiers.LOG4J_JCL.asVersionZero());
@@ -356,11 +391,11 @@ public class LoggingCapabilitiesExtension {
      * @param configurationName the configuration to be setup
      */
     public void enforceLog4J2(String configurationName) {
+        selectLog4J2Implementation(configurationName, LoggingModuleIdentifiers.LOG4J_CORE.asVersionZero());
         selectSlf4JLog4J2Interaction(configurationName, LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.asVersionZero());
         selectJulDelegation(configurationName, LoggingModuleIdentifiers.LOG4J_JUL.asVersionZero());
         selectJCLImplementation(configurationName, LoggingModuleIdentifiers.LOG4J_JCL.asVersionZero());
         selectLog4J12Implementation(configurationName, LoggingModuleIdentifiers.LOG4J12API.asVersionZero());
-
     }
 
     /**
@@ -380,6 +415,7 @@ public class LoggingCapabilitiesExtension {
         selectJulDelegation(LoggingModuleIdentifiers.JUL_TO_SLF4J.asVersionZero());
         selectJCLImplementation(LoggingModuleIdentifiers.JCL_OVER_SLF4J.asVersionZero());
         selectSlf4JLog4J2Interaction(LoggingModuleIdentifiers.LOG4J_TO_SLF4J.asVersionZero());
+        selectLog4J2Implementation(LoggingModuleIdentifiers.LOG4J_TO_SLF4J.asVersionZero());
 
         configurations.all(getSlf4JEnforcementSubstitutions());
     }
@@ -389,6 +425,7 @@ public class LoggingCapabilitiesExtension {
         selectJulDelegation(configurationName, LoggingModuleIdentifiers.JUL_TO_SLF4J.asVersionZero());
         selectJCLImplementation(configurationName, LoggingModuleIdentifiers.JCL_OVER_SLF4J.asVersionZero());
         selectSlf4JLog4J2Interaction(configurationName, LoggingModuleIdentifiers.LOG4J_TO_SLF4J.asVersionZero());
+        selectLog4J2Implementation(configurationName, LoggingModuleIdentifiers.LOG4J_TO_SLF4J.asVersionZero());
 
         configurations.matching(conf -> conf.getName().equals(configurationName)).all(getSlf4JEnforcementSubstitutions());
     }
