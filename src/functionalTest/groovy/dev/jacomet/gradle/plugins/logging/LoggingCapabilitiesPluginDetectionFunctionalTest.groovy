@@ -38,7 +38,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         'org.slf4j:slf4j-simple:1.7.27' | 'org.slf4j:slf4j-log4j12:1.7.27'
         'org.slf4j:slf4j-simple:1.7.27' | 'org.slf4j:slf4j-jcl:1.7.27'
         'org.slf4j:slf4j-simple:1.7.27' | 'org.slf4j:slf4j-jdk14:1.7.27'
-        'org.slf4j:slf4j-simple:1.7.27' | 'org.apache.logging.log4j:log4j-slf4j-impl:2.9.1'
+        'org.slf4j:slf4j-simple:1.7.27' | 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.0'
 
     }
 
@@ -72,22 +72,22 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         }
 
         where:
-        first                               | second                                            | capability
-        'org.slf4j:jcl-over-slf4j:1.7.27'   | 'commons-logging:commons-logging:1.2'             | 'commons-logging-impl'
-        'org.slf4j:log4j-over-slf4j:1.7.27' | 'log4j:log4j:1.2.9'                               | 'slf4j-vs-log4j2-log4j'
-        'org.slf4j:log4j-over-slf4j:1.7.27' | 'org.apache.logging.log4j:log4j-1.2-api:2.9.1'    | 'slf4j-vs-log4j2-log4j'
-        'org.slf4j:slf4j-log4j12:1.7.27'    | 'org.apache.logging.log4j:log4j-1.2-api:2.9.1'    | 'slf4j-vs-log4j2-log4j'
-        'org.apache.logging.log4j:log4j-1.2-api:2.9.1'    | 'org.slf4j:slf4j-log4j12:1.7.27'    | 'slf4j-vs-log4j2-log4j'
+        first                                           | second                                            | capability
+        'org.slf4j:jcl-over-slf4j:1.7.27'               | 'commons-logging:commons-logging:1.2'             | 'commons-logging-impl'
+        'org.slf4j:log4j-over-slf4j:1.7.27'             | 'log4j:log4j:1.2.9'                               | 'slf4j-vs-log4j2-log4j'
+        'org.slf4j:log4j-over-slf4j:1.7.27'             | 'org.apache.logging.log4j:log4j-1.2-api:2.17.0'   | 'slf4j-vs-log4j2-log4j'
+        'org.slf4j:slf4j-log4j12:1.7.27'                | 'org.apache.logging.log4j:log4j-1.2-api:2.17.0'   | 'slf4j-vs-log4j2-log4j'
+        'org.apache.logging.log4j:log4j-1.2-api:2.17.0' | 'org.slf4j:slf4j-log4j12:1.7.27'                  | 'slf4j-vs-log4j2-log4j'
     }
 
     def "can detect Log4J2 logger implementation / bridge implementation conflict"() {
         given:
-        withBuildScriptWithDependencies('org.apache.logging.log4j:log4j-slf4j-impl:2.9.1', 'org.apache.logging.log4j:log4j-to-slf4j:2.9.1')
+        withBuildScriptWithDependencies('org.apache.logging.log4j:log4j-slf4j-impl:2.17.0', 'org.apache.logging.log4j:log4j-to-slf4j:2.17.0')
 
         expect:
         buildAndFail(['doIt']) {
             assert outcomeOf(delegate, ':doIt') == FAILED
-            assert output.contains("conflict on capability 'dev.jacomet.logging:log4j2-vs-slf4j:2.9.1'")
+            assert output.contains("conflict on capability 'dev.jacomet.logging:log4j2-vs-slf4j:2.17.0'")
         }
     }
 
@@ -115,8 +115,8 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
 
         where:
         first                               | second                                        | capability
-        'org.slf4j:jul-to-slf4j:1.7.27'     | 'org.apache.logging.log4j:log4j-jul:2.9.1'    | 'slf4j-vs-log4j2-jul'
-        'org.slf4j:jcl-over-slf4j:1.7.27'   | 'org.apache.logging.log4j:log4j-jcl:2.9.1'    | 'slf4j-vs-log4j2-jcl'
+        'org.slf4j:jul-to-slf4j:1.7.27'     | 'org.apache.logging.log4j:log4j-jul:2.17.0'   | 'slf4j-vs-log4j2-jul'
+        'org.slf4j:jcl-over-slf4j:1.7.27'   | 'org.apache.logging.log4j:log4j-jcl:2.17.0'   | 'slf4j-vs-log4j2-jcl'
     }
 
     def "provides alignment on Slf4J"() {
@@ -137,7 +137,7 @@ loggingCapabilities {
 
     def "provides alignment on Log4J 2"() {
         given:
-        withBuildScriptWithDependencies("org.apache.logging.log4j:log4j-to-slf4j:2.9.1", "org.apache.logging.log4j:log4j-api:2.11.0")
+        withBuildScriptWithDependencies("org.apache.logging.log4j:log4j-to-slf4j:2.17.0", "org.apache.logging.log4j:log4j-api:2.16.0")
         withBuildScript("""
 loggingCapabilities {
     enableAlignment()
@@ -148,6 +148,6 @@ loggingCapabilities {
         def result = build(['doIt'])
 
         then:
-        result.output.contains("log4j-to-slf4j-2.11.0.jar")
+        result.output.contains("log4j-to-slf4j-2.17.0.jar")
     }
 }

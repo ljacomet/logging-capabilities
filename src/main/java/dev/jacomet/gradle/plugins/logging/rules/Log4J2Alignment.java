@@ -9,7 +9,7 @@ public class Log4J2Alignment implements ComponentMetadataRule {
     public void execute(ComponentMetadataContext context) {
         ComponentMetadataDetails details = context.getDetails();
         if (details.getId().getGroup().startsWith("org.apache.logging.log4j")) {
-            details.belongsTo("dev.jacomet.logging.align:log4j:" + details.getId().getVersion());
+            details.belongsTo("org.apache.logging.log4j:log4j-bom:" + details.getId().getVersion(), false);
         }
     }
 }
