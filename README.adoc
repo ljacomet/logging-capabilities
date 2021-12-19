@@ -7,13 +7,15 @@
 :warning-caption: :warning:
 
 Ever seen this infamous Slf4J warning?
-```
+
+[source]
+----
 SLF4J: Class path contains multiple SLF4J bindings.
 SLF4J: Found binding in [jar:file:.../slf4j-log4j12-1.7.29.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 SLF4J: Found binding in [jar:file:.../logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
 SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
-```
+----
 
 Ever wondered how to make sure _all_ your dependencies' logging ends up in your Log4J 2 configuration?
 
@@ -23,11 +25,12 @@ It is built on the https://docs.gradle.org/6.0.1/userguide/component_capabilitie
 
 == Plugin application and compatibility
 
-```kotlin
+[source,kotlin]
+----
 plugins {
   id("dev.jacomet.logging-capabilities") version "0.9.0"
 }
-```
+----
 
 Have a look at https://plugins.gradle.org/plugin/dev.jacomet.logging-capabilities[the documentation on the plugin portal] for alternate or DSL specific syntax.
 
@@ -111,12 +114,14 @@ The plugin also contributes a project extension that allows to configure which l
 This solution is https://docs.gradle.org/6.0.1/userguide/dependency_capability_conflict.html#sub:selecting-between-candidates[based on APIs] introduced in Gradle 6.0.
 
 The extension is accessed as follows:
-```kotlin
+
+[source,kotlin]
+----
 // Assuming the plugin has been applied
 loggingCapabilities {
     // Configuration goes here
 }
-```
+----
 
 TIP: The different configuration options documented below do not _add_ dependencies.
 Make sure to have the expected dependency in your graph, either as a direct or transitive one.
