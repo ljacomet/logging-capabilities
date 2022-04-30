@@ -15,11 +15,20 @@
  */
 package dev.jacomet.gradle.plugins.logging
 
+import org.gradle.util.GradleVersion
+import spock.lang.Requires
 import spock.lang.Unroll
 
 import static org.gradle.testkit.runner.TaskOutcome.FAILED
 
 class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCapabilitiesPluginFunctionalTest {
+
+    boolean conflictOnCapability(String output, String capability) {
+        // Error became lenient in Gradle 5.3, with a different error message:
+        // https://github.com/gradle/gradle/commit/0c10062f9c86192b2568b0035ec8885c75b024cc
+        return output.contains("conflict on capability '$capability'") || // Gradle >= 5.3
+               output.contains("provide the same capability: $capability") // Gradle <= 5.2
+    }
 
     @Unroll
     def "can detect Slf4J logger implementation conflicts with #first and #second"() {
@@ -31,7 +40,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
 
         then:
         outcomeOf(result, ':doIt') == FAILED
-        result.output.contains("conflict on capability 'dev.jacomet.logging:slf4j-impl:1.0'")
+        conflictOnCapability(result.output, "dev.jacomet.logging:slf4j-impl:1.0")
 
         where:
         first                           | second
@@ -53,7 +62,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
 
         then:
         outcomeOf(result, ':doIt') == FAILED
-        result.output.contains("conflict on capability 'dev.jacomet.logging:$capability:1.7.27'")
+        conflictOnCapability(result.output, "dev.jacomet.logging:$capability:1.7.27")
 
         where:
         first                               | second                            | capability
@@ -72,7 +81,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
 
         then:
         outcomeOf(result, ':doIt') == FAILED
-        result.output.contains("conflict on capability 'dev.jacomet.logging:$capability:1.0'")
+        conflictOnCapability(result.output, "dev.jacomet.logging:$capability:1.0")
 
         where:
         first                                           | second                                            | capability
@@ -92,7 +101,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
 
         then:
         outcomeOf(result, ':doIt') == FAILED
-        result.output.contains("conflict on capability 'dev.jacomet.logging:log4j2-vs-slf4j:2.17.0'")
+        conflictOnCapability(result.output, "dev.jacomet.logging:log4j2-vs-slf4j:2.17.0")
     }
 
     def "can detect Log4J2 logger implementation conflict"() {
@@ -104,7 +113,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
 
         then:
         outcomeOf(result, ':doIt') == FAILED
-        result.output.contains("conflict on capability 'dev.jacomet.logging:log4j2-impl:2.17.0")
+        conflictOnCapability(result.output, "dev.jacomet.logging:log4j2-impl:2.17.0")
     }
 
     @Unroll
@@ -117,7 +126,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
 
         then:
         outcomeOf(result, ':doIt') == FAILED
-        result.output.contains("conflict on capability 'dev.jacomet.logging:$capability:1.0'")
+        conflictOnCapability(result.output, "dev.jacomet.logging:$capability:1.0")
 
         where:
         first                               | second                                        | capability
@@ -125,6 +134,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         'org.slf4j:jcl-over-slf4j:1.7.27'   | 'org.apache.logging.log4j:log4j-jcl:2.17.0'   | 'slf4j-vs-log4j2-jcl'
     }
 
+    @Requires({ instance.testGradleVersion >= GradleVersion.version("6.0") })
     def "provides alignment on Slf4J"() {
         given:
         withBuildScriptWithDependencies("org.slf4j:slf4j-simple:1.7.25", "org.slf4j:slf4j-api:1.7.27")
@@ -141,6 +151,7 @@ loggingCapabilities {
         result.output.contains("slf4j-simple-1.7.27.jar")
     }
 
+    @Requires({ instance.testGradleVersion >= GradleVersion.version("6.0") })
     def "provides alignment on Log4J 2"() {
         given:
         withBuildScriptWithDependencies("org.apache.logging.log4j:log4j-to-slf4j:2.17.0", "org.apache.logging.log4j:log4j-api:2.16.0")

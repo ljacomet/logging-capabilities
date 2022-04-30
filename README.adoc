@@ -37,7 +37,7 @@ Have a look at https://plugins.gradle.org/plugin/dev.jacomet.logging-capabilitie
 |===
 | Gradle version | Available feature
 
-| Gradle 4.7+
+| Gradle 5.0+
 | The detection part is available
 
 | Gradle 6.0+

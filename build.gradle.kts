@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import org.gradle.util.GradleVersion
+
 plugins {
     `java-gradle-plugin`
     groovy
@@ -84,6 +86,11 @@ license {
     exclude("**/.gradle/*")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+tasks {
+    withType<Test> {
+        useJUnitPlatform()
+    }
+    functionalTest {
+        systemProperty("test.gradle-version", project.findProperty("test.gradle-version") ?: GradleVersion.current().version)
+    }
 }

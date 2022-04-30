@@ -1,10 +1,13 @@
 package dev.jacomet.gradle.plugins.logging
 
+import org.gradle.util.GradleVersion
+import spock.lang.Requires
 import spock.lang.Unroll
 
 import static org.gradle.testkit.runner.TaskOutcome.FAILED
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
+@Requires({ LoggingCapabilitiesPluginSelectionFunctionalTest.testGradleVersion >= GradleVersion.version("6.0") })
 class LoggingCapabilitiesPluginSelectionFunctionalTest extends AbstractLoggingCapabilitiesPluginFunctionalTest {
 
     @Unroll
