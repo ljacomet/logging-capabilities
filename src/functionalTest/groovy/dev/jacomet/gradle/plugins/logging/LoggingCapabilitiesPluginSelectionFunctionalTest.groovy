@@ -77,9 +77,9 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
 """)
         expect:
         buildAndFail(['doIt']) {
-            outcomeOf(delegate, ':doIt') == FAILED
+            assert outcomeOf(delegate, ':doIt') == FAILED
             // TODO improve the error
-            delegate.output.contains("ch.qos.logback:logback-classic:0 is not a valid candidate")
+            assert delegate.output.contains("conflict on capability 'dev.jacomet.logging:slf4j-impl:1.0'")
         }
     }
 
