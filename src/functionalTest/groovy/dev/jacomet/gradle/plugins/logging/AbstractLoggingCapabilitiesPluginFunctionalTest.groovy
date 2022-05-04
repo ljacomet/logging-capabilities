@@ -27,10 +27,8 @@ abstract class AbstractLoggingCapabilitiesPluginFunctionalTest extends Specifica
         gradleRunnerFor(args).build()
     }
 
-    void buildAndFail(List<String> args, @DelegatesTo(BuildResult) Closure verifications) {
-        def result = gradleRunnerFor(args).buildAndFail()
-        verifications.delegate = result
-        verifications()
+    BuildResult buildAndFail(List<String> args) {
+        gradleRunnerFor(args).buildAndFail()
     }
 
     GradleRunner gradleRunnerFor(List<String>  args) {

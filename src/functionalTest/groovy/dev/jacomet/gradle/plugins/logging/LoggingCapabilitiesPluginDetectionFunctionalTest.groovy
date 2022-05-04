@@ -26,11 +26,12 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         given:
         withBuildScriptWithDependencies(first, second)
 
-        expect:
-        buildAndFail(['doIt']) {
-            assert outcomeOf(delegate, ':doIt') == FAILED
-            assert output.contains("conflict on capability 'dev.jacomet.logging:slf4j-impl:1.0'")
-        }
+        when:
+        def result = buildAndFail(['doIt'])
+
+        then:
+        outcomeOf(result, ':doIt') == FAILED
+        result.output.contains("conflict on capability 'dev.jacomet.logging:slf4j-impl:1.0'")
 
         where:
         first                           | second
@@ -47,11 +48,12 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         given:
         withBuildScriptWithDependencies(first, second)
 
-        expect:
-        buildAndFail(['doIt']) {
-            assert outcomeOf(delegate, ':doIt') == FAILED
-            assert output.contains("conflict on capability 'dev.jacomet.logging:$capability:1.7.27'")
-        }
+        when:
+        def result = buildAndFail(['doIt'])
+
+        then:
+        outcomeOf(result, ':doIt') == FAILED
+        result.output.contains("conflict on capability 'dev.jacomet.logging:$capability:1.7.27'")
 
         where:
         first                               | second                            | capability
@@ -65,11 +67,12 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         given:
         withBuildScriptWithDependencies(first, second)
 
-        expect:
-        buildAndFail(['doIt']) {
-            assert outcomeOf(delegate, ':doIt') == FAILED
-            assert output.contains("conflict on capability 'dev.jacomet.logging:$capability:1.0'")
-        }
+        when:
+        def result = buildAndFail(['doIt'])
+
+        then:
+        outcomeOf(result, ':doIt') == FAILED
+        result.output.contains("conflict on capability 'dev.jacomet.logging:$capability:1.0'")
 
         where:
         first                                           | second                                            | capability
@@ -84,22 +87,24 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         given:
         withBuildScriptWithDependencies('org.apache.logging.log4j:log4j-slf4j-impl:2.17.0', 'org.apache.logging.log4j:log4j-to-slf4j:2.17.0')
 
-        expect:
-        buildAndFail(['doIt']) {
-            assert outcomeOf(delegate, ':doIt') == FAILED
-            assert output.contains("conflict on capability 'dev.jacomet.logging:log4j2-vs-slf4j:2.17.0'")
-        }
+        when:
+        def result = buildAndFail(['doIt'])
+
+        then:
+        outcomeOf(result, ':doIt') == FAILED
+        result.output.contains("conflict on capability 'dev.jacomet.logging:log4j2-vs-slf4j:2.17.0'")
     }
 
     def "can detect Log4J2 logger implementation conflict"() {
         given:
         withBuildScriptWithDependencies('org.apache.logging.log4j:log4j-core:2.17.0', 'org.apache.logging.log4j:log4j-to-slf4j:2.17.0')
 
-        expect:
-        buildAndFail(['doIt']) {
-            assert outcomeOf(delegate, ':doIt') == FAILED
-            assert output.contains("conflict on capability 'dev.jacomet.logging:log4j2-impl:2.17.0")
-        }
+        when:
+        def result = buildAndFail(['doIt'])
+
+        then:
+        outcomeOf(result, ':doIt') == FAILED
+        result.output.contains("conflict on capability 'dev.jacomet.logging:log4j2-impl:2.17.0")
     }
 
     @Unroll
@@ -107,11 +112,12 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         given:
         withBuildScriptWithDependencies(first, second)
 
-        expect:
-        buildAndFail(['doIt']) {
-            assert outcomeOf(delegate, ':doIt') == FAILED
-            assert output.contains("conflict on capability 'dev.jacomet.logging:$capability:1.0'")
-        }
+        when:
+        def result = buildAndFail(['doIt'])
+
+        then:
+        outcomeOf(result, ':doIt') == FAILED
+        result.output.contains("conflict on capability 'dev.jacomet.logging:$capability:1.0'")
 
         where:
         first                               | second                                        | capability
