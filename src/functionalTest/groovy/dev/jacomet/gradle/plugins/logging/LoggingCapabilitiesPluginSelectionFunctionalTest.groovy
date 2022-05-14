@@ -1,6 +1,7 @@
 package dev.jacomet.gradle.plugins.logging
 
 import org.gradle.util.GradleVersion
+import spock.lang.IgnoreIf
 import spock.lang.Requires
 import spock.lang.Unroll
 
@@ -11,6 +12,8 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 class LoggingCapabilitiesPluginSelectionFunctionalTest extends AbstractLoggingCapabilitiesPluginFunctionalTest {
 
     @Unroll
+    // Looks like a regression in Gradle 6.7+: https://github.com/ljacomet/logging-capabilities/issues/20
+    @IgnoreIf({ instance.testGradleVersion >= GradleVersion.version("6.7") })
     def "can select logback in case of conflict (with extra #additional)"() {
         given:
         withBuildScript("""
