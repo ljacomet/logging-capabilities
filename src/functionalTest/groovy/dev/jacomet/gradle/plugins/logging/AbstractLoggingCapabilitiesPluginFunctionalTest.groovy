@@ -3,12 +3,15 @@ package dev.jacomet.gradle.plugins.logging
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.gradle.util.GradleVersion
 import spock.lang.Specification
 import spock.lang.TempDir
 
 import java.nio.file.Path
 
 abstract class AbstractLoggingCapabilitiesPluginFunctionalTest extends Specification {
+
+    static GradleVersion testGradleVersion = System.getProperty("test.gradle-version")?.with { GradleVersion.version(it) } ?: GradleVersion.current()
 
     @TempDir
     Path testFolder
@@ -34,6 +37,7 @@ abstract class AbstractLoggingCapabilitiesPluginFunctionalTest extends Specifica
     GradleRunner gradleRunnerFor(List<String>  args) {
         GradleRunner.create()
                 .forwardOutput()
+                .withGradleVersion(testGradleVersion.version)
                 .withPluginClasspath()
                 .withProjectDir(testFolder.toFile())
                 .withArguments(args + ["-s"])
