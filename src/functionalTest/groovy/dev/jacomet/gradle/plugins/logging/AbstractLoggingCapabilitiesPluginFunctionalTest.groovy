@@ -64,7 +64,7 @@ ${dependencies.collect { "                implementation(\"$it\")" }.join("\n")}
 
             tasks.register("doIt") {
                 doLast {
-                    println(configurations.compileClasspath.files)
+                    println(configurations["compileClasspath"].files)
                 }
             }
         """

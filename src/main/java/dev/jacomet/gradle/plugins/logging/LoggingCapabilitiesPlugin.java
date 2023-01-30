@@ -35,6 +35,7 @@ import org.gradle.util.GradleVersion;
 
 public class LoggingCapabilitiesPlugin implements Plugin<Project> {
 
+    public static final GradleVersion GRADLE_7_0 = GradleVersion.version("7.0");
     private static final GradleVersion GRADLE_6_2 = GradleVersion.version("6.2");
     private static final GradleVersion GRADLE_6 = GradleVersion.version("6.0");
     private static final GradleVersion GRADLE_5_2 = GradleVersion.version("5.2");
