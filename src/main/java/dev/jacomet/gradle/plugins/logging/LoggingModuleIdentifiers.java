@@ -18,7 +18,8 @@ public enum LoggingModuleIdentifiers {
     COMMONS_LOGGING("commons-logging", "commons-logging", "1.0"),
     JCL_OVER_SLF4J("org.slf4j", "jcl-over-slf4j", "1.5.10"),
     LOG4J_JCL("org.apache.logging.log4j", "log4j-jcl", "2.0"),
-    LOG4J_CORE("org.apache.logging.log4j", "log4j-core", "2.0");
+    LOG4J_CORE("org.apache.logging.log4j", "log4j-core", "2.0"),
+    SPRING_JCL("org.springframework", "spring-jcl", "5.0.0.RELEASE");
 
     public final String moduleId;
     public final String group;

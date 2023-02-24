@@ -86,6 +86,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         where:
         first                                           | second                                            | capability
         'org.slf4j:jcl-over-slf4j:1.7.27'               | 'commons-logging:commons-logging:1.2'             | 'commons-logging-impl'
+        'org.springframework:spring-jcl:5.3.9'          | 'commons-logging:commons-logging:1.2'             | 'commons-logging-impl'
         'org.slf4j:log4j-over-slf4j:1.7.27'             | 'log4j:log4j:1.2.9'                               | 'slf4j-vs-log4j2-log4j'
         'org.slf4j:log4j-over-slf4j:1.7.27'             | 'org.apache.logging.log4j:log4j-1.2-api:2.17.0'   | 'slf4j-vs-log4j2-log4j'
         'org.slf4j:slf4j-log4j12:1.7.27'                | 'org.apache.logging.log4j:log4j-1.2-api:2.17.0'   | 'slf4j-vs-log4j2-log4j'

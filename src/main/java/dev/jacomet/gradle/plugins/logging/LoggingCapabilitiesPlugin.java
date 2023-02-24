@@ -175,6 +175,7 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
      * `commons-logging:commons-logging` can be replaced by:
      * * Slf4J with `org.slf4j:jcl-over-slf4j`
      * * Log4J2 with `org.apache.logging.log4j:log4j-jcl` _which requires `commons-logging`_
+     * * Spring JCL with `org.springframework:spring-jcl`
      * <p>
      * `commons-logging:commons-logging` can be used from:
      * * Slf4J API delegating to it with `org.slf4j:slf4j-jcl`
@@ -182,13 +183,14 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
      * <p>
      * Given the above:
      * * `jcl-over-slf4j` and `slf4j-jcl` are exclusive
-     * * `commons-logging` and `jcl-over-slf4j` are exclusive
+     * * `commons-logging`, `jcl-over-slf4j` and `spring-jcl` are exclusive
      * * `jcl-over-slf4j` and `log4j-jcl` are exclusive
      */
     private void configureCommonsLogging(DependencyHandler dependencies) {
         dependencies.components( handler -> {
             handler.withModule(LoggingModuleIdentifiers.COMMONS_LOGGING.moduleId, CommonsLoggingImplementationRule.class);
             handler.withModule(LoggingModuleIdentifiers.JCL_OVER_SLF4J.moduleId, CommonsLoggingImplementationRule.class);
+            handler.withModule(LoggingModuleIdentifiers.SPRING_JCL.moduleId, CommonsLoggingImplementationRule.class);
 
             handler.withModule(LoggingModuleIdentifiers.JCL_OVER_SLF4J.moduleId, Slf4JVsJCL.class);
             handler.withModule(LoggingModuleIdentifiers.SLF4J_JCL.moduleId, Slf4JVsJCL.class);
