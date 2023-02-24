@@ -4,6 +4,7 @@ import org.gradle.api.artifacts.Dependency;
 
 public enum LoggingModuleIdentifiers {
     LOG4J_SLF4J_IMPL("org.apache.logging.log4j", "log4j-slf4j-impl", "2.0"),
+    LOG4J_SLF4J2_IMPL("org.apache.logging.log4j", "log4j-slf4j2-impl", "2.19.0"),
     LOG4J_TO_SLF4J("org.apache.logging.log4j", "log4j-to-slf4j", "2.0"),
     SLF4J_SIMPLE("org.slf4j", "slf4j-simple", "1.0"),
     LOGBACK_CLASSIC("ch.qos.logback", "logback-classic", "1.0.0"),

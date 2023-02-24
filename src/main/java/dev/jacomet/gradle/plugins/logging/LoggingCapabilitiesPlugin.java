@@ -76,15 +76,16 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
     }
 
     /**
-     * Log4J2 can act as an Slf4J implementation with `log4j-slf4j-impl`.
+     * Log4J2 can act as an Slf4J implementation with `log4j-slf4j-impl` or `log4j-slf4j2-impl`.
      * It can also delegate to Slf4J with `log4j-to-slf4j`.
      * <p>
      * Given the above:
-     * * `log4j-slf4j-impl` and `log4j-to-slf4j` are exclusive
+     * * `log4j-slf4j-impl`, `log4j-slf4j2-impl` and `log4j-to-slf4j` are exclusive
      */
     private void configureLog4J2(DependencyHandler dependencies) {
         dependencies.components(handler -> {
             handler.withModule(LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.moduleId, Log4J2vsSlf4J.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_SLF4J2_IMPL.moduleId, Log4J2vsSlf4J.class);
             handler.withModule(LoggingModuleIdentifiers.LOG4J_TO_SLF4J.moduleId, Log4J2vsSlf4J.class);
         });
     }
