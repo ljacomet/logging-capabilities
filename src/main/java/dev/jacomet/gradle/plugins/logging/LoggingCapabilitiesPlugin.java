@@ -35,6 +35,7 @@ import org.gradle.util.GradleVersion;
 
 public class LoggingCapabilitiesPlugin implements Plugin<Project> {
 
+    public static final GradleVersion GRADLE_7_0 = GradleVersion.version("7.0");
     private static final GradleVersion GRADLE_6_2 = GradleVersion.version("6.2");
     private static final GradleVersion GRADLE_6 = GradleVersion.version("6.0");
     private static final GradleVersion GRADLE_5_2 = GradleVersion.version("5.2");
@@ -62,9 +63,7 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
 
     private Runnable getAlignmentActivation(DependencyHandler dependencies, GradleVersion gradleVersion) {
         if (gradleVersion.compareTo(GRADLE_6_2) < 0) {
-            return () -> {
-                configureAlignment(dependencies);
-            };
+            return () -> configureAlignment(dependencies);
         }
         return () -> {};
     }
@@ -79,7 +78,7 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
     /**
      * Log4J2 can act as an Slf4J implementation with `log4j-slf4j-impl`.
      * It can also delegate to Slf4J with `log4j-to-slf4j`.
-     *
+     * <p>
      * Given the above:
      * * `log4j-slf4j-impl` and `log4j-to-slf4j` are exclusive
      */
@@ -129,11 +128,11 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
      * `log4j:log4j` can be replaced by:
      * * Slf4j with `log4j-over-slf4j`
      * * Log4J2 with `log4j-1.2-api`
-     *
+     * <p>
      * Log4J can be used from:
      * * Slf4J API delegating to it with `slf4j-log4j12`
      * * Log4J2 API only through Slf4J delegation
-     *
+     * <p>
      * Given the above:
      * * `log4j-over-slf4j` and `slf4j-log4j12` are exclusive
      * * `log4j-over-slf4j` and `log4j-1.2-api` and `log4j` are exclusive
@@ -153,11 +152,11 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
      * Java Util Logging can be replaced by:
      * * Slf4J with `jul-to-slf4j`
      * * Log4J2 with `log4j-jul`
-     *
+     * <p>
      * Java Util Logging can be used from:
      * * Slf4J API delegating to it with `slf4j-jdk14`
      * * Log4J2 API only through SLF4J delegation
-     *
+     * <p>
      * Given the above:
      * * `jul-to-slf4j` and `slf4j-jdk14` are exclusive
      * * `jul-to-slf4j` and `log4j-jul` are exclusive
@@ -176,11 +175,11 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
      * `commons-logging:commons-logging` can be replaced by:
      * * Slf4J with `org.slf4j:jcl-over-slf4j`
      * * Log4J2 with `org.apache.logging.log4j:log4j-jcl` _which requires `commons-logging`_
-     *
+     * <p>
      * `commons-logging:commons-logging` can be used from:
      * * Slf4J API delegating to it with `org.slf4j:slf4j-jcl`
      * * Log4J2 API only through Slf4J delegation
-     *
+     * <p>
      * Given the above:
      * * `jcl-over-slf4j` and `slf4j-jcl` are exclusive
      * * `commons-logging` and `jcl-over-slf4j` are exclusive

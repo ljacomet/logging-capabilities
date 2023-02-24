@@ -38,7 +38,7 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
 
             tasks.register("doIt") {
                 doLast {
-                    println(configurations.runtimeClasspath.files)
+                    println(configurations["runtimeClasspath"].files)
                 }
             }
 """)
@@ -77,7 +77,7 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
 
             tasks.register("doIt") {
                 doLast {
-                    println(configurations.runtimeClasspath.files)
+                    println(configurations["runtimeClasspath"].files)
                 }
             }
 """)
@@ -131,7 +131,7 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
 
             tasks.register("doIt") {
                 doLast {
-                    println(configurations.runtimeClasspath.files)
+                    println(configurations["runtimeClasspath"].files)
                 }
             }
 """)
@@ -173,7 +173,7 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
 
             tasks.register("doIt") {
                 doLast {
-                    println(configurations.runtimeClasspath.files)
+                    println(configurations["runtimeClasspath"].files)
                 }
             }
 """)
@@ -229,7 +229,7 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
 
             tasks.register("doIt") {
                 doLast {
-                    println(configurations.runtimeClasspath.files)
+                    println(configurations["runtimeClasspath"].files)
                 }
             }
 """)
@@ -284,8 +284,8 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
 
             tasks.register("doIt") {
                 doLast {
-                    println(configurations.runtimeClasspath.files)
-                    println(configurations.testRuntimeClasspath.files)
+                    println(configurations["runtimeClasspath"].files)
+                    println(configurations["testRuntimeClasspath"].files)
                 }
             }
 """)

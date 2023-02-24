@@ -1,6 +1,9 @@
 package dev.jacomet.gradle.plugins.logging.extension;
 
+import dev.jacomet.gradle.plugins.logging.LoggingCapabilitiesPlugin;
 import dev.jacomet.gradle.plugins.logging.LoggingModuleIdentifiers;
+import dev.jacomet.gradle.plugins.logging.actions.Slf4JEnforcementSubstitutionsUsing;
+import dev.jacomet.gradle.plugins.logging.actions.Slf4JEnforcementSubstitutionsWith;
 import dev.jacomet.gradle.plugins.logging.rules.*;
 import org.gradle.api.Action;
 import org.gradle.api.artifacts.CapabilitiesResolution;
@@ -9,9 +12,9 @@ import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.ExternalDependency;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
-import org.gradle.api.artifacts.component.ComponentSelector;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
+import org.gradle.util.GradleVersion;
 
 /**
  * Project extension that enables expressing preference over potential logging capabilities conflicts.
@@ -431,17 +434,10 @@ public class LoggingCapabilitiesExtension {
     }
 
     private Action<Configuration> getSlf4JEnforcementSubstitutions() {
-        return conf -> conf.getResolutionStrategy().dependencySubstitution(substitution -> {
-            ComponentSelector log4JOverSlf4J = substitution.module(LoggingModuleIdentifiers.LOG4J_OVER_SLF4J.asFirstVersion());
-            substitution.substitute(substitution.module(LoggingModuleIdentifiers.LOG4J.moduleId)).with(log4JOverSlf4J);
-            substitution.substitute(substitution.module(LoggingModuleIdentifiers.LOG4J12API.moduleId)).with(log4JOverSlf4J);
-
-            substitution.substitute(substitution.module(LoggingModuleIdentifiers.LOG4J_JUL.moduleId)).with(substitution.module(LoggingModuleIdentifiers.JUL_TO_SLF4J.asFirstVersion()));
-
-            ComponentSelector jclOverSlf4J = substitution.module(LoggingModuleIdentifiers.JCL_OVER_SLF4J.asFirstVersion());
-            substitution.substitute(substitution.module(LoggingModuleIdentifiers.COMMONS_LOGGING.moduleId)).with(jclOverSlf4J);
-            substitution.substitute(substitution.module(LoggingModuleIdentifiers.LOG4J_JCL.moduleId)).with(jclOverSlf4J);
-        });
+        if (GradleVersion.current().compareTo(LoggingCapabilitiesPlugin.GRADLE_7_0) > 0) {
+            return new Slf4JEnforcementSubstitutionsUsing();
+        }
+        return new Slf4JEnforcementSubstitutionsWith();
     }
 
     private ExternalDependency validateNotation(Object dependencyNotation) {
