@@ -122,6 +122,7 @@ public class LoggingCapabilitiesPlugin implements Plugin<Project> {
             handler.withModule(LoggingModuleIdentifiers.SLF4J_JCL.moduleId, Slf4JImplementation.class);
             handler.withModule(LoggingModuleIdentifiers.SLF4J_JDK14.moduleId, Slf4JImplementation.class);
             handler.withModule(LoggingModuleIdentifiers.LOG4J_SLF4J_IMPL.moduleId, Slf4JImplementation.class);
+            handler.withModule(LoggingModuleIdentifiers.LOG4J_SLF4J2_IMPL.moduleId, Slf4JImplementation.class);
         });
     }
 

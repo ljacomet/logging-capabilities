@@ -49,6 +49,7 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         'org.slf4j:slf4j-simple:1.7.27' | 'org.slf4j:slf4j-jcl:1.7.27'
         'org.slf4j:slf4j-simple:1.7.27' | 'org.slf4j:slf4j-jdk14:1.7.27'
         'org.slf4j:slf4j-simple:1.7.27' | 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.0'
+        'org.slf4j:slf4j-simple:1.7.27' | 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
 
     }
 
@@ -93,16 +94,20 @@ class LoggingCapabilitiesPluginDetectionFunctionalTest extends AbstractLoggingCa
         'org.apache.logging.log4j:log4j-1.2-api:2.17.0' | 'org.slf4j:slf4j-log4j12:1.7.27'                  | 'slf4j-vs-log4j2-log4j'
     }
 
-    def "can detect Log4J2 logger implementation / bridge implementation conflict"() {
+    @Unroll
+    def "can detect Log4J2 logger implementation / bridge implementation conflict with #bridge"() {
         given:
-        withBuildScriptWithDependencies('org.apache.logging.log4j:log4j-slf4j-impl:2.17.0', 'org.apache.logging.log4j:log4j-to-slf4j:2.17.0')
+        withBuildScriptWithDependencies(bridge, 'org.apache.logging.log4j:log4j-to-slf4j:2.20.0')
 
         when:
         def result = buildAndFail(['doIt'])
 
         then:
         outcomeOf(result, ':doIt') == FAILED
-        conflictOnCapability(result.output, "dev.jacomet.logging:log4j2-vs-slf4j:2.17.0")
+        conflictOnCapability(result.output, "dev.jacomet.logging:log4j2-vs-slf4j:2.20.0")
+
+        where:
+        bridge << ['org.apache.logging.log4j:log4j-slf4j-impl:2.20.0', 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0']
     }
 
     def "can detect Log4J2 logger implementation conflict"() {
