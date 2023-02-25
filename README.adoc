@@ -82,7 +82,7 @@ The added capabilities and impacted modules can be found in the table below:
 | Represents JUL replacement: either with Slf4J or with Log4J 2
 
 | `commons-logging-impl`
-| `commons-logging:commons-logging`, `org.slf4j:jcl-over-slf4j`
+| `commons-logging:commons-logging`, `org.slf4j:jcl-over-slf4j`, `org.springframework:spring-jcl`
 | Represents Apache Commons Logging implementation: native or Slf4J
 
 | `slf4j-vs-jcl`
