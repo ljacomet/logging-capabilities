@@ -19,3 +19,9 @@ jobs:
 
       - name: Execute Gradle build
         run: ./gradlew publish
+
+      - name: Archive publication
+        uses: actions/upload-artifact@v3
+        with:
+          name: plugin-publication
+          path: build/repo/dev/jacomet/gradle/plugins/logging-capabilities
