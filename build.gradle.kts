@@ -22,6 +22,7 @@ plugins {
     dev.jacomet.build.functional
     id("com.github.hierynomus.license") version "0.16.1"
     signing
+    id("dev.sigstore.sign") version "0.4.0"
 }
 
 repositories {
