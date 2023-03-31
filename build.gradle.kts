@@ -76,6 +76,10 @@ signing {
     useGpgCmd()
 }
 
+tasks.withType<Sign>().configureEach {
+    onlyIf("GPG configuration available") { project.hasProperty("signing.gnupg.keyName") }
+}
+
 license {
     header = rootProject.file("config/HEADER.txt")
     strictCheck = true
