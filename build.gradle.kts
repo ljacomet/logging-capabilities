@@ -20,7 +20,7 @@ plugins {
     groovy
     id("com.gradle.plugin-publish") version "1.1.0"
     dev.jacomet.build.functional
-    id("com.github.hierynomus.license") version "0.15.0"
+    id("com.github.hierynomus.license") version "0.16.1"
     signing
 }
 
@@ -41,12 +41,14 @@ java {
 dependencies {
     implementation(gradleApi())
 
-    testImplementation("org.spockframework:spock-core:2.0-groovy-2.5")
+    testImplementation("org.spockframework:spock-core:2.0-groovy-3.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 }
 
 gradlePlugin {
     plugins {
+        website.set("https://github.com/ljacomet/logging-capabilities")
+        vcsUrl.set("https://github.com/ljacomet/logging-capabilities.git")
         create("logging-capabilities") {
             id = "dev.jacomet.logging-capabilities"
             implementationClass = "dev.jacomet.gradle.plugins.logging.LoggingCapabilitiesPlugin"
@@ -55,14 +57,9 @@ gradlePlugin {
                 |* Gradle 8 compatibility
                 |* Add capabilities to spring-jcl and log4j-slf4j2-impl
             """.trimMargin()
+            tags.set(listOf("dependency", "dependencies", "dependency-management", "logging", "slf4j", "log4j2"))
         }
     }
-}
-
-pluginBundle {
-    website = "https://github.com/ljacomet/logging-capabilities"
-    vcsUrl = "https://github.com/ljacomet/logging-capabilities.git"
-    tags = listOf("dependency", "dependencies", "dependency-management", "logging", "slf4j", "log4j2")
 }
 
 publishing {

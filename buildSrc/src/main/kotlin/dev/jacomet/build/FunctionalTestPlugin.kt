@@ -18,7 +18,7 @@ package dev.jacomet.build
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
-import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.creating
 import org.gradle.kotlin.dsl.getValue
@@ -29,7 +29,7 @@ import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 class FunctionalTestPlugin : Plugin<Project> {
     override
     fun apply(project: Project) {
-        val functionalTestSourceSet = project.the<JavaPluginConvention>().sourceSets.create("functionalTest") {
+        val functionalTestSourceSet = project.the<JavaPluginExtension>().sourceSets.create("functionalTest") {
 
         }
         project.the<GradlePluginDevelopmentExtension>().testSourceSets(functionalTestSourceSet)
