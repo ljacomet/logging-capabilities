@@ -80,6 +80,17 @@ tasks.withType<Sign>().configureEach {
     onlyIf("GPG configuration available") { project.hasProperty("signing.gnupg.keyName") }
 }
 
+project.afterEvaluate {
+    publishing.publications.withType<MavenPublication>().configureEach {
+        // Force population of publication to be able to skip GPG signing Sigstore items
+        artifacts
+    }
+    tasks.withType<Sign>().configureEach {
+        // Skip signing of sigstore bundles
+        signatures.removeIf { it.toSign.name.endsWith(".sigstore") }
+    }
+}
+
 license {
     header = rootProject.file("config/HEADER.txt")
     strictCheck = true
