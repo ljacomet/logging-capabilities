@@ -18,11 +18,11 @@ import org.gradle.util.GradleVersion
 
 plugins {
     groovy
-    id("com.gradle.plugin-publish") version "1.1.0"
+    id("com.gradle.plugin-publish") version "1.2.0"
     dev.jacomet.build.functional
     id("com.github.hierynomus.license") version "0.16.1"
     signing
-    id("dev.sigstore.sign") version "0.4.0"
+    id("dev.sigstore.sign") version "0.4.1"
 }
 
 repositories {
@@ -74,6 +74,10 @@ publishing {
 
 signing {
     useGpgCmd()
+}
+
+sigstoreSign {
+    sigstoreJavaVersion.set("0.4.0")
 }
 
 tasks.withType<Sign>().configureEach {
