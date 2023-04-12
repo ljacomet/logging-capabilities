@@ -22,7 +22,7 @@ plugins {
     dev.jacomet.build.functional
     id("com.github.hierynomus.license") version "0.16.1"
     signing
-    id("dev.sigstore.sign") version "0.4.1"
+    id("dev.sigstore.sign") version "0.4.2"
 }
 
 repositories {
@@ -74,10 +74,6 @@ publishing {
 
 signing {
     useGpgCmd()
-}
-
-sigstoreSign {
-    sigstoreJavaVersion.set("0.4.0")
 }
 
 tasks.withType<Sign>().configureEach {
