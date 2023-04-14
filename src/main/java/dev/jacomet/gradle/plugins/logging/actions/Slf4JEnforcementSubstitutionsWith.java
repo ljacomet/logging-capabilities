@@ -18,6 +18,7 @@ public class Slf4JEnforcementSubstitutionsWith implements Action<Configuration> 
             ComponentSelector jclOverSlf4J = substitution.module(LoggingModuleIdentifiers.JCL_OVER_SLF4J.asFirstVersion());
             substitution.substitute(substitution.module(LoggingModuleIdentifiers.COMMONS_LOGGING.moduleId)).with(jclOverSlf4J);
             substitution.substitute(substitution.module(LoggingModuleIdentifiers.LOG4J_JCL.moduleId)).with(jclOverSlf4J);
+            substitution.substitute(substitution.module(LoggingModuleIdentifiers.SPRING_JCL.moduleId)).with(jclOverSlf4J);
         });
     }
 }
