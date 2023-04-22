@@ -242,6 +242,45 @@ ${additional.collect { "                runtimeOnly(\"$it\")" }.join("\n")}
         result.output.contains("jcl-over-slf4j-1.7.27.jar")
     }
 
+    def "can enforce logback and spring-jcl is substituted"() {
+        withBuildScript("""
+            plugins {
+                `java-library`
+                id("dev.jacomet.logging-capabilities")
+            }
+
+            repositories {
+                mavenCentral()
+            }
+
+            loggingCapabilities {
+                enforceLogback()
+                enableAlignment()
+            }
+
+            dependencies {
+                implementation("org.slf4j:slf4j-api:1.7.27")
+
+                implementation("org.springframework:spring-jcl:5.3.9")
+
+                runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
+            }
+
+            tasks.register("doIt") {
+                doLast {
+                    println(configurations["runtimeClasspath"].files)
+                }
+            }
+""")
+        when:
+        def result = build(['doIt'])
+
+        then:
+        outcomeOf(result, ':doIt') == SUCCESS
+        !result.output.contains("spring-jcl-5.3.9.jar")
+        result.output.contains("jcl-over-slf4j-1.7.27.jar")
+    }
+
     def "can enforce different loggers in runtime and test"() {
         given:
         withBuildScript("""
