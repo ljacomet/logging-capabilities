@@ -1,4 +1,4 @@
-name: Build
+name: Basic with Gradle action
 on: workflow_dispatch
 jobs:
   gradle:
