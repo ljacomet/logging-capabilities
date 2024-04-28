@@ -6,6 +6,10 @@
 :caution-caption: :fire:
 :warning-caption: :warning:
 
+WARNING: This plugin has been merged with the GradleX https://github.com/gradlex-org/jvm-dependency-conflict-resolution[jvm-dependency-conflict-resolution] plugin.
+Please update to that other plugin and report issues there.
+I will follow up on the existing issues here and move the relevant ones to the new plugin.
+
 Ever seen this infamous Slf4J warning?
 
 [source]
